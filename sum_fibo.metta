@@ -25,4 +25,4 @@
 )
 )
 
-! (sum_fibo 10)
+! (sum_fibo 100)
