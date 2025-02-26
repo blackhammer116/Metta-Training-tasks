@@ -55,16 +55,16 @@
                 ($head (index $list 0 $mid))
                 ($j (if (== (length $list) $mid) () (+ $mid 1)))
             )
-        (cons-atom $head (sublist $list $i $j))
-    )
-(let* (
-        ($head (index $list 0 $i))
-        ($j (if (> $i $mid) () (+ $i 1)))
-    )
-(cons-atom $head (sublist $list $j $mid))
+            (cons-atom $head (sublist $list $i $j))
+        )
+        (let* (
+                ($head (index $list 0 $i))
+                ($j    (if (> $i $mid) () (+ $i 1)))
+            )
+            (cons-atom $head (sublist $list $j $mid))
 
-)
-)
+        )
+    )
 )
 
  ; Merge sort function
@@ -74,7 +74,7 @@
         (let* (
                 ($mid (/ (length $list) 2))
                 ($left (sublist $list 0 $mid))
-                ($right (sublist $list $mid))
+                ($right (sublist $list () $mid))
             )
         (merge (mergeSort $left) (mergeSort $right))
     )
