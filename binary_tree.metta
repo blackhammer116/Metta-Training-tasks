@@ -1,19 +1,4 @@
-; **TODO**:
-; create a node with left, right and data property
-; define their types
-
-; **Done**:
-
-
-
-; (= (create_node ($name ($data ($left $right))))
-;         (
-;             (node $name)
-;             (node_data (node $name) $data)
-;             (node_left (node $name) $left)
-;             (node_right (node $name) $right)
-;         )
-; )
+; Future expansion: automate the node creation process
 
 (Node root)
 (Node_data  (Node root) 2)
@@ -30,6 +15,16 @@
 (Node_left  (Node child2) ())
 (Node_right (Node child2) ())
 
+
+(= (update_tree $original $new)
+    (let*
+     (
+        (() (remove-atom &self $original))
+        ($updated (add-atom &self $new))
+     )
+     $updated
+    )
+)
 
 (= (getData $node)
     (match &self
@@ -50,8 +45,6 @@
         $right
     )
 )
-; !(add-atom &self (Node_left (Node root) (Node child1)))
-; !(getLeft root)
 
 (= (insert_binaryTree $parent $child)
     (let*
@@ -60,30 +53,39 @@
             ($childData   (getData $child))
             ($parentLeft  (getLeft $parent))
             ($parentRight (getRight $parent))
-            ; ($parentNode  (getNode $parent))
-            ; ($childNode   (getNode $parent))
         )
         (if (< $parentData $childData)
             (if (== $parentLeft ())
-                ($parentLeft $child)
+                (let*
+                    (
+                        ($remove (Node_left (Node $parent) ()))
+                        ($add (Node_left (Node $parent) $child))
+                        ($updated (update_tree $remove $add))
+                        ; (() (println! $updated))
+                        ($checkLeft (getLeft $parent))
+                        ; (() (println! $checkleft))
+                    )
+                    $checkLeft
+                )
                 (insert_binaryTree $parentLeft $child)
             )
             (if (== $parentRight ())
-                (Node_right (Node $parent) $child)
+                (let*
+                    (
+                        ($remove (Node_right (Node $parent) ()))
+                        ($add (Node_right (Node $parent) $child))
+                        ($updated (update_tree $remove $add))
+                        ; (() (println! $updated))
+                        ($checkLeft (getLeft $parent))
+                        ; (() (println! $checkleft))
+                    )
+                    $checkLeft
+                )
                 (insert_binaryTree $parentLeft $child)
             )
         )
     )
 )
 
-
-
-; !(Bt_node_expr 2 () ())
-; !(create_node (root (2 (() ()))))
-; !(create_node (child (5 (() ()))))
 !(insert_binaryTree root child1)
 !(getLeft root)
-; !(insert_binaryTree 2 4)
-; !(insert_binaryTree 4 1)
-; !(insert_binaryTree 3 5)
-; !(insert_binaryTree 5 1)

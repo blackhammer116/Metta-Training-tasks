@@ -68,6 +68,7 @@
 ;; Pop
 ; helper function to extract redundant brackets out of the list
 ; Eg: (1 (2 (3 (4 ())))) -> (1 2 3 4)
+(= (extract ()) ())
 (= (extract ($x $xs))
     (let*
         (
@@ -186,19 +187,19 @@
 
 ; !(foldl + (1 2 3 4 5) 0)
 
-(= (foldr $f $list $null)
-    (if (== $list ())
-        $null
-        (let*
-            (
-                ($head (car-atom $list))
-                ($tail (cdr-atom $list))
-                ($n    ($f (foldr $f $tail $null) $head))
-            )
-            $n
-        )
-    )
-)
+; (= (foldr $f $list $null)
+;     (if (== $list ())
+;         $null
+;         (let*
+;             (
+;                 ($head (car-atom $list))
+;                 ($tail (cdr-atom $list))
+;                 ($n    ($f (foldr $f $tail $null) $head))
+;             )
+;             $n
+;         )
+;     )
+; )
 ; !(foldr + (1 2 3 4 5) 0)
 
 ;; max_value
@@ -246,20 +247,54 @@
     )
 )
 ; !(min_value (1 2 3 4 5) 10)
+;; helper functions
+(: isSymbol (-> Expression Bool))
+(= (isSymbol $expr) (== (get-metatype $expr) Symbol))
+
+;; Function to replace a given atom from a space.
+(: appendAtom (-> Atom Atom Atom))
+(= (appendAtom $a $atom) (foldr cons-atom ($a) $atom))
+
+(: foldr (-> (-> $a $b $b) $b $c $d))
+(= (foldr $f $i $xs)
+   (if (== $xs ())
+       $i
+       (let* (($h (car-atom $xs))
+              ($t (cdr-atom $xs))
+              ($ft (foldr $f $i $t)))
+         ($f $h $ft))))
+
+
+(= (++ $x $y)
+   (case ((isSymbol $x) (isSymbol $y))
+      (
+        ((True True)  ($x $y))
+        ((True False) (cons-atom $x $y))
+        ((False True) (appendAtom $y $x))
+        ((False False)  (foldr cons-atom $y $x)))))
+
+
 
 ;; Sorting
 (= (sort_list $list)
   (if (<= (length $list) 1)
       $list
       (let*
-        (
-            ($pivot  (car-atom $list))
-            ($rest   (cdr-atom $list))
-            ($left   (sort_list (find_smallest $pivot $rest)))
-            ($right  (sort_list (find_largest $pivot $rest)))
-            ; ($list2  (cons-atom $left $right))
-        )
-        ($left $right)
+            (
+                ($pivot  (car-atom $list))
+                ($rest   (cdr-atom $list))
+                ($left   (extract (find_smallest $pivot $rest)))
+                ; (() (println! ($left (length $left))))
+                ($left' (sort_list $left))
+                (() (println! $left'))
+                ($right  (extract (find_largest $pivot $rest)))
+                ; (() (println! ($right (length $right))))
+                ($right' (sort_list $right))
+                (() (println! $right'))
+                ($right2  (cons-atom $pivot $right'))
+                ($total (++ $left $right2))
+            )
+            $total
         )
     )
 )
@@ -271,7 +306,7 @@
                 ($head (car-atom $list))
                 ($tail (cdr-atom $list))
             )
-            (if (< $pivot $head)
+            (if (> $pivot $head)
                 ($head (find_smallest $pivot $tail))
                 (find_smallest $pivot $tail)
             )
@@ -286,7 +321,7 @@
                 ($head (car-atom $list))
                 ($tail (cdr-atom $list))
             )
-            (if (> $pivot $head)
+            (if (< $pivot $head)
                 ($head (find_largest $pivot $tail))
                 (find_largest $pivot $tail)
             )
@@ -294,5 +329,8 @@
     )
 )
 
-!(sort_list (2 4 3))
+; !(find_largest 2 (2 4 3 1))
+
+!(sort_list (2 4 3 1))
+; !(extract (find_smallest 2 (2 3 4 1)))
 ; !(length (2 4 1 5 3))

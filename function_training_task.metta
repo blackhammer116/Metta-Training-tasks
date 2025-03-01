@@ -135,4 +135,6 @@
 )
 
 ;; Test the function with an example list
-!(reconstruct (B 4 5 3))
+; !(reconstruct (B 4 5 3))
+
+!((+ 2 3) (- 2 3) )
