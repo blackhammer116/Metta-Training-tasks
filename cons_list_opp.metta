@@ -32,20 +32,29 @@
 
 ; !(foldr + 0 (cons 1 (cons 2 (cons 3 (nil)))))
 
-(: appendAtom (-> Atom Atom Atom))
-(= (appendAtom $a $atom) (foldr cons-atom ($a) $atom))
+;; helper functions
+(= (append_end $x (nil))
+    (cons $x (nil))
+)
+(= (append_end $y (cons $x $xs))
+    (if (== $xs (nil))
+        (cons $x (cons $y (nil)))
+        (cons $x (append_end $y $xs))
+    )
+)
 
-; (= (reverse (nil))
+; !(append_end (cons 1 (cons 2 (cons 3 (nil)))))
 
-; )
+
 (= (reverse (cons $x $xs))
     (if (== $xs (nil))
-        ((nil) cons $x)
-        ((reverse $xs) cons $x)
+        (append_end $x $xs)
+        (append_end $x (reverse $xs))
     )
 )
 
 !(reverse (cons 1 (cons 2 (cons 3 (nil)))))
+
 ; !(car-atom (cons 3 (cons 2 (cons 1 (nil)))))
 
 (= (length (nil)) 0 )
