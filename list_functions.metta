@@ -262,7 +262,10 @@
        (let* (($h (car-atom $xs))
               ($t (cdr-atom $xs))
               ($ft (foldr $f $i $t)))
-         ($f $h $ft))))
+         ($f $h $ft)
+        )
+    )
+)
 
 
 (= (++ $x $y)

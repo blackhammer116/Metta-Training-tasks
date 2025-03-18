@@ -145,7 +145,7 @@
                     (Person_gender (Person $z) male)
                     (Person_name (Person $z) $u)
                     )
-                    (if (== $z $x) () $u)
+                    (if (== $z $x) (empty) $u)
         ))
 )
 

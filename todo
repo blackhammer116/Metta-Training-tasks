@@ -1,0 +1,9 @@
+#TODO
+
+foldr, foldl, reverse, length
+binary_tree: implement using cons_list and a method find x
+
+#DONE
+foldl
+foldr
+length
