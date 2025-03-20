@@ -7,3 +7,6 @@ binary_tree: implement using cons_list and a method find x
 foldl
 foldr
 length
+reverse
+
+binary_tree

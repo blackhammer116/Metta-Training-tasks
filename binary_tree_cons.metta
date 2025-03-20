@@ -1,0 +1,26 @@
+;; implementing a binary tree using cons-list form as follows
+; (node rootValue
+;     (node leftValue
+;         (nil)
+;         (nil))
+;     (node rightValue
+;         (nil)
+;         (nil))
+; )
+(: nil (empty))
+(: node Tree)
+
+(= (insertNode $y (node $x $xL $xR))
+    (if (>= $y $x)
+        (if (== $xR (nil))
+            (node $x $xL (node $y (nil) (nil)))
+            (node $x $xL (insertNode $y $xR))
+        )
+        (if (== $xL (nil))
+            (node $x (node $y (nil) (nil)) $xR)
+            (node $x (insertNode $y $xL) $xR)
+        )
+    )
+)
+
+!(insertNode 2 (node 4 (node 3 (nil) (nil)) (nil)))
