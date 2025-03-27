@@ -1,5 +1,5 @@
 ;; Helper functions
-;; sort, find_smallest, find_largest, ++(concat), isSymbol, appendAtom, foldr
+;;
 
 (= (NotEq $x $y) (if (not (== $x $y)) $y (empty)))
 
@@ -42,4 +42,4 @@
     (collapse ($func (superpose $list)))
 )
 
-!(filter isEven (1 2 3 4 5 6 7 8))
+; !(filter isEven (1 2 3 4 5 6 7 8))

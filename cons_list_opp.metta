@@ -10,7 +10,6 @@
 ; (= (foldl $func $x $null)
 ;     ($func $x $null)
 ; )
-!(get-type )
 
 
 (: foldl (-> $f $n cons $n))
