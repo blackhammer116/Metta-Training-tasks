@@ -15,12 +15,10 @@
     (empty)
 )
 (= (insertNode $y (node $x (nil) $xR))
-    ; (empty)
     (node $x (node $y (nil) (nil)) $xR)
 )
 (= (insertNode $y (node $x $xL (nil)))
     (node $x $xL (node $y (nil) (nil)))
-    ; (empty)
 )
 (= (insertNode $y (node $x $xL $xR))
     (if (>= $y $x)
@@ -29,7 +27,7 @@
     )
 )
 
-; !(insertNode 5 (node 4 (node 3 (nil) (nil)) (nil)))
+!(insertNode 4 (node 5 (node 3 (nil) (nil)) (nil)))
 
 
 (: find (-> Number node Expression))
@@ -46,4 +44,4 @@
     )
 )
 
-!(find 3 (node 4 (node 3 (node 2 (nil) (nil)) (nil)) (nil)))
+; !(find 3 (node 4 (node 3 (node 2 (nil) (nil)) (nil)) (nil)))

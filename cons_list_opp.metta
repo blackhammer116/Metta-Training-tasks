@@ -1,5 +1,8 @@
 (: nil empty)
-(: cons node)
+; (: node )
+(: List (-> node))
+(: cons List)
+; (list $s )
 ; !(get-type nil)
 ; !(get-type cons)
 
@@ -7,7 +10,10 @@
 ; (= (foldl $func $x $null)
 ;     ($func $x $null)
 ; )
-(: foldl (-> $f $n $l $n))
+!(get-type )
+
+
+(: foldl (-> $f $n cons $n))
 (= (foldl $func $null (nil))
     ($func $null $null)
 )
@@ -54,4 +60,4 @@
     (+ 1 (length $xs))
 )
 
-!(length (cons 1 (cons 2 (cons 3 (cons 4 (nil))))))
+; !(length (cons 1 (cons 2 (cons 3 (cons 4 (nil))))))

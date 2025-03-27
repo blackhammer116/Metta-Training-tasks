@@ -1,12 +1,6 @@
 #TODO
 
-foldr, foldl, reverse, length
-binary_tree: implement using cons_list and a method find x
+map, filter, findAndRemove, findAndReplace, removeDuplicate
 
 #DONE
-foldl
-foldr
-length
-reverse
-
-binary_tree
+findAndRemove
