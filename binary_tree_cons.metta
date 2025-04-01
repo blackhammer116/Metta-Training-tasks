@@ -7,12 +7,12 @@
 ;         (nil)
 ;         (nil))
 ; )
-(: List (-> $a Type))
-(: nil (List $a))
-(: node (-> $a (List $a) (List $a) (List $a)))
+(: Tree (-> $a Type))
+(: nil (Tree $a))
+(: node (-> $a (Tree $a) (Tree $a) (Tree $a)))
 
 
-(: insertNode (-> $a (List $a) (List $a) ))
+(: insertNode (-> $a (Tree $a) (Tree $a) ))
 (= (insertNode $x nil)
     (empty)
 )
@@ -29,10 +29,10 @@
     )
 )
 
-; !(insertNode 4 (node 5 (node 3 nil nil) nil))
+!(insertNode 4 (node 5 (node 3 nil nil) nil))
 
 
-(: find (-> $a (List $a) (List $a)))
+(: find (-> $a (Tree $a) (Tree $a)))
 (= (find $y nil)
     ("Error $y not In tree")
 )
@@ -46,4 +46,4 @@
     )
 )
 
-!(find 3 (node 4 (node 3 (node 2 nil nil) nil) nil))
+; !(find 3 (node 4 (node 3 (node 2 nil nil) nil) nil))
