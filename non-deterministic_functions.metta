@@ -7,7 +7,10 @@
 
 (= (addTwo $x $y) (+ $x $y))
 
-(= (isEven $x) (if (== (% $x 2) 0) $x (empty)))
+(= (isEven $x)  (if (== (% $x 2) 0) True False))
+
+(= (isGrounded $x) (if (== (get-metatype $x) Grounded) True False))
+
 
 ;; Non-determinism functions
 (: List Expression)
@@ -39,7 +42,25 @@
 ;; filter
 (: filter (-> (-> Atom Atom) List List))
 (= (filter $func $list)
-    (collapse ($func (superpose $list)))
+   (collapse (let*
+        (
+            ($s (superpose $list))
+            ($r (if (== ($func $s) True) $s (empty)))
+        )
+        $r
+    ))
 )
 
 ; !(filter isEven (1 2 3 4 5 6 7 8))
+
+;; flatten
+(= (flatten $list)
+    (let*
+        (
+            ($s (collapse-bind $list))
+            ; ($r (if (== (get-metatype $s) Expression) (superpose $s) $s))
+        )
+        $s
+    )
+)
+!(flatten (1 (2 (3 (4)))))
