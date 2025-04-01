@@ -1,28 +1,21 @@
-(: nil empty)
-; (: node )
-(: List (-> node))
-(: cons List)
-; (list $s )
-; !(get-type nil)
-; !(get-type cons)
-
-; !(cons 1 (cons 2 (cons 3 (nil))))
-; (= (foldl $func $x $null)
-;     ($func $x $null)
-; )
+(: List (-> $a Type))
+(: nil (List $a))
+(: cons (-> $a (List $a) (List $a)))
 
 
-(: foldl (-> $f $n cons $n))
-(= (foldl $func $null (nil))
+; !(cons 1 (cons 1 (cons 3 nil)))
+
+(: foldl (-> $f $n (List $n) $n))
+(= (foldl $func $null nil)
     ($func $null $null)
 )
 (= (foldl $func $null (cons $x $xs) )
     (let $n ($func $x (foldl $func $null $xs)) $n)
 )
 
-; !(foldl + 0 (cons 1 (cons 2 (cons 3 (nil)))))
+; !(foldl + 0 (cons 1 (cons 2 (cons 3 nil))))
 
-(: foldl (-> $f $n $l $n))
+(: foldl (-> $f $n (List $n) $n))
 (= (foldr $func $null (nil))
     ($func $null $null)
 )
@@ -30,10 +23,10 @@
     (let $ft (foldr $func $null $xs) ($func $x $ft))
 )
 
-; !(foldr + 0 (cons 1 (cons 2 (cons 3 (nil)))))
+; !(foldr + 0 (cons 1 (cons 2 (cons 3 nil))))
 
 ;; helper functions for reverse list
-(: append_end (-> $v $l $l))
+(: append_end (-> $v (List $v) (List $v)))
 (= (append_end $x (nil))
     (cons $x (nil))
 )
@@ -43,20 +36,20 @@
 
 ; !(append_end 0 (cons 1 (cons 2 (cons 3 (nil)))))
 
-(: reverse (-> $l $l))
+(: reverse (-> (List $n) (List $n)))
 (= (reverse (cons $x $xs))
-    (if (== $xs (nil))
+    (if (== $xs nil)
         (append_end $x $xs)
         (append_end $x (reverse $xs))
     )
 )
 
-; !(reverse (cons 1 (cons 2 (cons 3 (nil)))))
+; !(reverse (cons 1 (cons 2 (cons 3 nil))))
 
-(: length (-> $l Number))
+(: length (-> (List $n) Number))
 (= (length (nil)) 0 )
 (= (length (cons $x $xs))
     (+ 1 (length $xs))
 )
 
-; !(length (cons 1 (cons 2 (cons 3 (cons 4 (nil))))))
+!(length (cons 1 (cons 2 (cons 3 (cons 4 (nil))))))
