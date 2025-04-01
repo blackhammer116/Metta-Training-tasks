@@ -54,13 +54,13 @@
 ; !(filter isEven (1 2 3 4 5 6 7 8))
 
 ;; flatten
-(= (flatten $list)
+(= (flatten ()) (empty))
+(= (flatten ($x $xs))
     (let*
         (
-            ($s (collapse-bind $list))
-            ; ($r (if (== (get-metatype $s) Expression) (superpose $s) $s))
+            ($y (if (== $xs ()) () (flatten $xs)))
         )
-        $s
+        (cons-atom $x $y)
     )
 )
-!(flatten (1 (2 (3 (4)))))
+!(flatten (1 (2 (3 (4 ())))))
