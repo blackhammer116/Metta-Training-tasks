@@ -1,4 +1,3 @@
- ; put you code here
 (Person M)
 (Person_name (Person M) Monica)
 (Person_gender (Person M) female)
@@ -59,7 +58,7 @@
 (Parent A E)
 (Parent Ja Jo)
 
- ;Parents of John
+; Parents of John
 ; ! (match &self (, (Parent $x J) (Person_name (Person $x) $y)) ($y is the parent of John)) ; Parents of john
 ;  ;Mother of Pam
 ; ! (match &self
